@@ -14,16 +14,20 @@ def getArgument():
         exit()
     else:
         if(os.path.exists(sys.argv[1])):
-            return run(sys.argv[1])
+            return Analyze(sys.argv[1]).run()
             #test()
         else:
             print("File does not exist.")
     return
 
-def run(filepath):
-    createNecessarilyItems()
+class Analyze():
+    def __init__(self, filepath):
+        self.filepath = filepath
+        self.api = analyzers.MalwareClustering.static.Static(self.filepath)
 
-    analyzers.MalwareClustering.static.Static().run()
+    def run(self):
+        createNecessarilyItems()
+        self.api.run()
 
 def safeStartCheckup():
     if getPythonVersionRunningOn()>(2,7,18):

@@ -28,9 +28,23 @@ def getPythonVersionRunningOn():
 
 
 def createFolder(folder_path, folder_name):
+    rotdest = None  
+    if folder_path == 'Documents':
+        folder_path = MALWATCH_ROOT + "/submissions"
+    else:
+        folder_path = MALWATCH_ROOT
+    
+    
+
+    
+
     if(str(folder_path).endswith('/')):
+        if os.path.exists(folder_path + folder_name):
+            return None
         os.mkdir(folder_path + folder_name)
     else:
+        if os.path.exists(folder_path + folder_name):
+            return None
         os.mkdir(folder_path + "/" + folder_name)
 
 def getEnvironmentRunningIn():
