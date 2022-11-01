@@ -39,13 +39,13 @@ def createFolder(folder_path, folder_name):
     
 
     if(str(folder_path).endswith('/')):
-        if os.path.exists(folder_path + folder_name):
-            return None
-        os.mkdir(folder_path + folder_name)
+        if not os.path.exists(folder_path + folder_name):
+           os.mkdir(folder_path + folder_name)
+        return
     else:
-        if os.path.exists(folder_path + folder_name):
-            return None
-        os.mkdir(folder_path + "/" + folder_name)
+        if not os.path.exists(folder_path +"/" + folder_name):  
+            os.mkdir(folder_path + "/" + folder_name)
+        return
 
 def getEnvironmentRunningIn():
     if os.name == 'nt':
