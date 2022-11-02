@@ -46,7 +46,13 @@ def getArgument():
 
 
 class AngrInit:
+    """Initialize everything inside the module Angr.
+    @return: Functions or values or None
+    """
+
     def __init__(self, filepath):
+        """Initializes options and variables.
+        """
         self.filepath = filepath
         self.angr = angr.Project(self.filepath)
 
@@ -68,7 +74,6 @@ class AngrInit:
         self.main_object__mapped_base = self.main_object.mapped_base
 
 
-
         #self.shared_object = self.loader.shared_object
         self.all_elf_objects = self.loader.all_elf_objects
         self.extern_object = self.loader.extern_object
@@ -76,11 +81,27 @@ class AngrInit:
         self.find_object_containing_400 = self.loader.find_object_containing(0x400000)
         self.symbol_strcmp = self.loader.find_symbol('strcmp')
 
+        self.block = self.angr.factory.block(self.angr.entry)
+        self.block_pp = self.block.pp()
+        self.block_instructions = self.block.instructions
+        self.block_instructions_addrs = self.block.instruction_addrs
+        self.block_capstone = self.block.capstone
+        self.block_vex = self.block.vex
+
+        self.state = self.angr.factory.entry_state()
+        self.state_regs__rip = self.state.regs.rip
+        self.state_regs__rax = self.state.regs.rax
+        self.state_mem_entry__integer = self.state.mem[self.angr.entry].int.resolved
+
 
         self.all_content = {}
 
 
     def _append_To_Result(self):
+        """Converts everything into files and memory.
+        @return: json with info or None.
+        """
+
         x = {
             "loader": str(self.loader),
             "all_objects": str(self.all_objects),
@@ -117,15 +138,32 @@ class AngrInit:
         return str(json.dumps(x, indent=2))
 
     def _create_angr_main_dir(self):
+        """Creates the file with contents.
+        @return: File
+        @calls: _append_To_Result()
+        """
+        
         if not self.angr:
             return None
-
         createFolder(ROOT_DESTINATION, "Angr-Reports")
-        f = open(MALWATCH_ROOT + "/submissions/" + "Angr-Reports/angr.txt", "w+")
+        f = open(MALWATCH_ROOT + "/submissions/" + "Angr-Reports/angr.json", "w+")
         f.write(str(self._append_To_Result()))
         f.close()
+    def _identifier(self):
+        """Finds common library functions in CGC binaries.
+        @return: Address and Name or None.
+        """
+
+        addrs = []
+        idfer = self.angr.analysis.Identifier()
+        for funcInfo in idfer.func_info:
+            addrs.append(hex(funcInfo.addr), funcInfo.name)
+        return addrs
 
     def run(self):
+        """Runs the Angr analysis.
+        @return: Result dict.
+        """
         self.angr = angr.Project(self.filepath)
         try:
             self.angr = angr.Project(self.filepath)
@@ -136,8 +174,8 @@ class AngrInit:
         print(self._append_To_Result())
         self._create_angr_main_dir()
 
-
 class Api:
+    """Main Api"""
     def __init__(self, filepath):
         self.filepath = filepath
 
