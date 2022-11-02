@@ -1,0 +1,40 @@
+{
+  "loader": "<Loaded 364040375650bf968b7503de130ecf17b8194f47825847e98149446acd741e50.exe, maps [0xf00000:0x1c07fff]>",
+  "all_objects": "[<PE Object 364040375650bf968b7503de130ecf17b8194f47825847e98149446acd741e50.exe, maps [0xf00000:0x18fdfff]>, <ExternObject Object cle##externs, maps [0x1900000:0x1900040]>, <ExternObject Object cle##externs, maps [0x1a00000:0x1a07fff]>, <PETLSObject Object cle##tls, maps [0x1b00000:0x1b0144b]>, <KernelObject Object cle##kernel, maps [0x1c00000:0x1c07fff]>]",
+  "main_object": [
+    {
+      "main_object": "<PE Object 364040375650bf968b7503de130ecf17b8194f47825847e98149446acd741e50.exe, maps [0xf00000:0x18fdfff]>"
+    },
+    {
+      "entry": "25689904"
+    },
+    {
+      "max_addr": "26206207"
+    },
+    {
+      "min_addr": "15728640"
+    },
+    {
+      "segments": "<Regions: [<UPX0\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0xf01000, size 0x662000>, <UPX1\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0x1563000, size 0x31e000>, <.rsrc\u0000\u0000\u0000 | offset 0x31d600, vaddr 0x1881000, size 0x7d000>]>"
+    },
+    {
+      "sections": "<Regions: [<UPX0\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0xf01000, size 0x662000>, <UPX1\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0x1563000, size 0x31e000>, <.rsrc\u0000\u0000\u0000 | offset 0x31d600, vaddr 0x1881000, size 0x7d000>]>"
+    },
+    {
+      "find_segment_containing_entry": "<UPX1\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0x1563000, size 0x31e000>"
+    },
+    {
+      "find_section_containing_entry": "<UPX1\u0000\u0000\u0000\u0000 | offset 0x400, vaddr 0x1563000, size 0x31e000>"
+    },
+    {
+      "linked_base": "15728640"
+    },
+    {
+      "mapped_base": "15728640"
+    }
+  ],
+  "all_elf_objects": "[]",
+  "extern_object": "<ExternObject Object cle##externs, maps [0x1900000:0x1900040]>",
+  "kernel_object": "<KernelObject Object cle##kernel, maps [0x1c00000:0x1c07fff]>",
+  "find_object_containing_400": "None"
+}
