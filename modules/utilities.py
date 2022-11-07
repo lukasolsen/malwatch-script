@@ -1,10 +1,11 @@
 import os, sys
 import subprocess
 import time
+import shutil
 
 from lib.cuckoo.common.constants import CUCKOO_ROOT
 from clib.malwatch.local_settings import ROOT_DESTINATION
-from clib.malwatch.common.constants import MALWATCH_ROOT
+from clib.malwatch.common.constants import MALWATCH_ROOT,_current_dir
 
 def isFile(file):
     if(os.path.exists(file)):
@@ -100,6 +101,8 @@ def checkIfInternetDownFall():
     #os.system('ping 8.8.8.8')
 
 def createNecessarilyItems():
+    """Create severe files."""
+
     if not os.path.exists(CUCKOO_ROOT):
         return None
     
@@ -116,3 +119,19 @@ def createNecessarilyItems():
 
     if not os.path.exists(rotdest):
         os.mkdir(rotdest)
+
+    #Create dev files.
+    dev_path = MALWATCH_ROOT + "/dev"
+    script_folder = dev_path + "/scripts"
+
+    if not os.path.exists(dev_path):
+        os.mkdir(dev_path)
+    if not os.path.exists(script_folder):
+        os.mkdir(script_folder)
+
+    #Move file
+    angrFile = _current_dir.replace('clib/malwatch/common', 'modules/processing/') + "angr.py"
+
+    shutil.copy(angrFile, script_folder + "/angr.py")
+
+

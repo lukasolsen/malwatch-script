@@ -1,6 +1,7 @@
 try:
     import angr
     import monkeyhex
+    import claripy
 except ImportError:
     print(
         "Angr is not installed correctly, see https://docs.angr.io/introductory-errata/install"
@@ -61,17 +62,17 @@ class AngrInit:
         self.all_objects = self.loader.all_objects
         self.main_object = self.loader.main_object
 
-        self.main_object__entry = self.main_object.entry
-        self.main_object__max_addr = self.main_object.max_addr
-        self.main_object__min_addr = self.main_object.min_addr
+        self.main_object__entry = hex(self.main_object.entry)
+        self.main_object__max_addr = hex(self.main_object.max_addr)
+        self.main_object__min_addr = hex(self.main_object.min_addr)
         self.main_object__segments = self.main_object.segments
         self.main_object__sections = self.main_object.sections
-        self.main_object__find_segment_containing_entry = self.main_object.find_segment_containing(self.main_object__entry)
-        self.main_object__find_section_containing_entry = self.main_object.find_section_containing(self.main_object__entry)
+        #self.main_object__find_segment_containing_entry = self.main_object.find_segment_containing(self.main_object__entry)
+        #self.main_object__find_section_containing_entry = self.main_object.find_section_containing(self.main_object__entry)
         #self.main_object__plt_strcmp_ = self.main_object.plt['strcmp']
         #self.main_object__reverse_plt_addr = self.main_object.reverse_plt[self.main_object__plt_strcmp_]
-        self.main_object__linked_base = self.main_object.linked_base
-        self.main_object__mapped_base = self.main_object.mapped_base
+        self.main_object__linked_base = hex(self.main_object.linked_base)
+        self.main_object__mapped_base = hex(self.main_object.mapped_base)
 
 
         #self.shared_object = self.loader.shared_object
@@ -85,12 +86,20 @@ class AngrInit:
         self.block_pp = self.block.pp()
         self.block_instructions = self.block.instructions
         self.block_instructions_addrs = self.block.instruction_addrs
+        self.block_codes = {}
+        self.curr_num = 0
+        for num in self.block_instructions_addrs:
+            self.curr_num += 1
+            self.block_codes[self.curr_num] = [{
+                self.curr_num: self.angr.factory.block(num)
+            }]
+        
         self.block_capstone = self.block.capstone
         self.block_vex = self.block.vex
 
         self.state = self.angr.factory.entry_state()
-        self.state_regs__rip = self.state.regs.rip
-        self.state_regs__rax = self.state.regs.rax
+        #self.state_regs__rsp = self.state.regs.rsp
+        #self.state_regs__rax = self.state.regs.rax
         self.state_mem_entry__integer = self.state.mem[self.angr.entry].int.resolved
 
 
@@ -112,8 +121,8 @@ class AngrInit:
                 {"min_addr": str(self.main_object__min_addr)},
                 {"segments": str(self.main_object__segments)},
                 {"sections": str(self.main_object__sections)},
-                {"find_segment_containing_entry": str(self.main_object__find_segment_containing_entry)},
-                {"find_section_containing_entry": str(self.main_object__find_section_containing_entry)},
+                #{"find_segment_containing_entry": str(self.main_object__find_segment_containing_entry)},
+                #{"find_section_containing_entry": str(self.main_object__find_section_containing_entry)},
                 {"linked_base": str(self.main_object__linked_base)},
                 {"mapped_base": str(self.main_object__mapped_base)}
             ],
