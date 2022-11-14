@@ -130,8 +130,14 @@ def createNecessarilyItems():
         os.mkdir(script_folder)
 
     #Move file
-    angrFile = _current_dir.replace('clib/malwatch/common', 'modules/processing/') + "angr.py"
+    angrFile = _current_dir.replace('clib/malwatch/common', 'modules/processing/') + "angrScript.py"
+    pmatFile = _current_dir.replace('clib/malwatch/common', 'modules/processing/') + "PMAT.py"
+    yaraFile = _current_dir.replace('clib/malwatch/common', 'modules/processing/') + "yaraScript.py"
 
-    shutil.copy(angrFile, script_folder + "/angr.py")
+    shutil.copy(angrFile, script_folder + "/angrScript.py")
+    shutil.copy(pmatFile, script_folder + "/PMAT.py")
+    shutil.copy(yaraFile, script_folder + "/yaraScript.py")
 
 
+def changeTerminalName(name):
+    subprocess.Popen("title " + str(name), shell=True)

@@ -26,7 +26,7 @@ sys.path.insert(1, "/media/sf_Shared/Script/malwatch-script-1/")
 
 from clib.malwatch.common.constants import MALWATCH_ROOT
 from clib.malwatch.local_settings import ROOT_DESTINATION
-from modules.utilities import createFolder, isRunningInLinux, isRunningInWindows
+from modules.utilities import createFolder, changeTerminalName
 
 
 # Use our arguments to specify what they want.
@@ -56,6 +56,7 @@ class AngrInit:
         """
         self.filepath = filepath
         self.angr = angr.Project(self.filepath)
+        self.angr_CFG_Static = angr.Project(self.filepath, load_options={'auto_load_libs': False})
 
 
         self.loader = self.angr.loader
@@ -98,12 +99,25 @@ class AngrInit:
         self.block_vex = self.block.vex
 
         self.state = self.angr.factory.entry_state()
-        #self.state_regs__rsp = self.state.regs.rsp
-        #self.state_regs__rax = self.state.regs.rax
         self.state_mem_entry__integer = self.state.mem[self.angr.entry].int.resolved
 
+        #self.cfg_static = self.angr_CFG_Static.analyses.CFGFast()
+        #self.cfg_static_graph = self.cfg_static.graph
+        #self.cfg_static_graph_nodes_len = len(self.cfg_static.graph.nodes())
+        #self.cfg_static_graph_edges_len = len(self.cfg_static.graph.edges())
+        #self.cfg_static_get_any_node = self.cfg_static.get_any_node(self.angr.entry)
+        #self.cfg_static_get_all_nodes_len = len(self.cfg_static.get_all_nodes(self.angr.entry))
+        #self.cfg_static_entry_node_predecessors = self.cfg_static_get_any_node.predecessors
+        #self.cfg_static_entry_node_successors = self.cfg_static_get_any_node.successors
+
+        #self.identifier = self.angr.analyses.Identifier()
+        #self.identify = []
+        #for funcInfo in self.identifier.func_info():
+        #    self.identify.append(str(hex(funcInfo)))
 
         self.all_content = {}
+        #print(self.identifier)
+        #print(self.identify)
 
 
     def _append_To_Result(self):
@@ -129,7 +143,17 @@ class AngrInit:
             "all_elf_objects": str(self.all_elf_objects),
             "extern_object": str(self.extern_object),
             "kernel_object": str(self.kernel_object),
-            "find_object_containing_400": str(self.find_object_containing_400)
+            "find_object_containing_400": str(self.find_object_containing_400),
+            "symbol_strcmp": str(self.symbol_strcmp),
+            "block": str(self.block),
+            "block_pp": self.block_pp,
+            "block_instructions": self.block_instructions,
+            "block_instructions_addrs": str(self.block_instructions_addrs),
+            "block codes": str(self.block_codes),
+            "block_capstone": str(self.block_capstone),
+            "block_vex": str(self.block_vex),
+            "state": str(self.state),
+            "state_mem_entry__integer": str(self.state_mem_entry__integer)
             
         }
 
@@ -195,5 +219,5 @@ class Api:
         # d = AngrInit(self.filepath)._append_To_Result()
         # print(str(d)
 
-
+changeTerminalName("Angr Script")
 getArgument()
